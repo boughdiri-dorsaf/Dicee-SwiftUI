@@ -8,19 +8,52 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    //Allows the variable to be modified dynamically.
+    @State var leftDiceNumber = 1
+    @State var rightDiceNumber = 1
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+        ZStack {
+            Image("background").resizable().edgesIgnoringSafeArea(.all)
+            VStack {
+                Image("diceeLogo")
+                Spacer()
+                HStack {
+                    DiceView(numdice: leftDiceNumber)
+                    DiceView(numdice: rightDiceNumber)
+                }.padding(.horizontal)
+                Spacer()
+                Button(action: {
+                    self.leftDiceNumber = Int.random(in: 1...6)
+                    self.rightDiceNumber = Int.random(in: 1...6)
+                    
+                }) {
+                    Text("Roll")
+                        .font(.system(size: 50))
+                        .fontWeight(.heavy)
+                        .foregroundColor(.white)
+                        .padding(.horizontal)
+                }
+                .background(Color.red)
+            }
         }
-        .padding()
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+    }
+}
+
+struct DiceView: View {
+    let numdice: Int
+    
+    var body: some View {
+        Image("dice\(numdice)")
+            .resizable()
+            .aspectRatio(1, contentMode: .fit)
+            .padding()
     }
 }
